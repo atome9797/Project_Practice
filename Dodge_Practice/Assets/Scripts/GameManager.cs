@@ -6,19 +6,24 @@ using UnityEngine.SceneManagement;
 public class GameManager : SingletonBehavior<GameManager>
 {
 
-/*	void Start()
-	{
-		StartCoroutine(LoadSceneAsync());
-	}
+    private void Start()
+    {
+        SceneManager.LoadScene("PlayerScene", LoadSceneMode.Additive);
+    }
 
-	IEnumerator LoadSceneAsync()
-	{
-		
-		AsyncOperation AsyncLoad = SceneManager.LoadSceneAsync("PlayerScene");
+    /*	void Start()
+        {
+            StartCoroutine(LoadSceneAsync());
+        }
 
-		while (!AsyncLoad.isDone)
-		{
-			yield return null;
-		}
-	}*/
+        IEnumerator LoadSceneAsync()
+        {
+
+            AsyncOperation AsyncLoad = SceneManager.LoadSceneAsync("PlayerScene");
+
+            while (!AsyncLoad.isDone)
+            {
+                yield return null;
+            }
+        }*/
 }
