@@ -17,10 +17,9 @@ public class PlayerAnimator : MonoBehaviour
         _animator.SetFloat(PlayerAnimID.MoveBack, x + y);
     }
 
+
     public void PickUp(bool isCheck)
     {
         _animator.SetBool(PlayerAnimID.Pick, isCheck);
     }
-
-
 }

@@ -15,8 +15,8 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         //마우스 커서 보이지 않게 설정
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.visible = false;
+        //Cursor.lockState = CursorLockMode.Locked;
 
         _rotateToMouse = GetComponent<RotateToMouse>();
         movement = GetComponent<PlayerMovement>();
@@ -29,15 +29,18 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        UpdateRotate();
-        UpdateMove();
-        UpdateJump();
-        _animator.PlayerMoveAnimation(_input.X, _input.Y);
-
-        if(_input.CanPickup)
+        if(!Inventory.inventoryActivated)
         {
-            //코르틴 이용해서 1초동안 애니메이션 실행시키기
-            StartCoroutine(GrapEffect());
+            UpdateRotate();
+            UpdateMove();
+            UpdateJump();
+            UpdateMoveAnimation();
+
+            if (_input.CanPickup)
+            {
+                //코르틴 이용해서 1초동안 애니메이션 실행시키기
+                StartCoroutine(GrapEffect());
+            }
         }
     }
 
@@ -51,6 +54,10 @@ public class PlayerController : MonoBehaviour
         _animator.PickUp(false);
     }
 
+    private void UpdateMoveAnimation()
+    {
+        _animator.PlayerMoveAnimation(_input.X, _input.Y);
+    }
 
     private void UpdateRotate()
     {
