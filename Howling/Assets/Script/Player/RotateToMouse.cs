@@ -4,14 +4,15 @@ using UnityEngine;
 
 public class RotateToMouse : MonoBehaviour
 {
-    public float rotCamXAxisSpeed = 5f; // 카메라 x축 회전속도
+    public float rotCamXAxisSpeed = 20f; // 카메라 x축 회전속도
 
-    public float rotCamYAxisSpeed = 3f; // 카메라 y축 회전속도
+    public float rotCamYAxisSpeed = 10f; // 카메라 y축 회전속도
 
     private float limitMinX = -80; // 카메라 x축 회전 범위 (최소)
     private float limitMaxX = 50; // 카메라 x축 회전 범위 (최대)
     private float eulerAngleX;
     public float eulerAngleY;
+    public GameObject _eye;
 
     public void UpdateRotate(float mouseX, float mouseY)
     {
@@ -21,7 +22,8 @@ public class RotateToMouse : MonoBehaviour
         // 카메라 x축 회전의 경우 회전 범위를 설정
         eulerAngleX = ClampAngle(eulerAngleX, limitMinX, limitMaxX);
 
-        transform.rotation = Quaternion.Euler(eulerAngleX, eulerAngleY, 0);
+        transform.rotation = Quaternion.Euler(0, eulerAngleY, 0);
+        _eye.transform.rotation = Quaternion.Euler(eulerAngleX, eulerAngleY, 0);
 
     }
 

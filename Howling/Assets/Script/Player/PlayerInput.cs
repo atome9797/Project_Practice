@@ -8,6 +8,8 @@ public class PlayerInput : MonoBehaviour
     public float Y { get; private set; }
     public float mouseX { get; private set; }
     public float mouseY { get; private set; }
+    
+    public bool CanPickup { get; private set; }
 
     
 
@@ -19,5 +21,6 @@ public class PlayerInput : MonoBehaviour
         Y = Input.GetAxis("Horizontal");
         mouseX = Input.GetAxis("Mouse X");
         mouseY = Input.GetAxis("Mouse Y");
+        CanPickup = Input.GetMouseButton(0);
     }
 }
