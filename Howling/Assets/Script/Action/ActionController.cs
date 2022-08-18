@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class ActionController : MonoBehaviour
 {
     [SerializeField]
-    private float range = 3f; //æ∆¿Ã≈€ Ω¿µÊ¿Ã ∞°¥…«— √÷¥Î ∞≈∏Æ
+    private float range = 10f; //æ∆¿Ã≈€ Ω¿µÊ¿Ã ∞°¥…«— √÷¥Î ∞≈∏Æ
 
     private bool pickActivated = false; //æ∆¿Ã≈€ Ω¿µÊ ∞°¥…«“Ω√ true
 
@@ -58,13 +58,13 @@ public class ActionController : MonoBehaviour
     {
         pickActivated = true;
         actionText.gameObject.SetActive(true);
-        actionText.text = hitInfo.transform.GetComponent<ItemPickUp>().item.itemName + " »πµÊ " + "<color=yellow>" + "(øﬁ≈¨∏Ø)" + "</color>";
+        actionText.text = "<color=yellow>" + hitInfo.transform.GetComponent<ItemPickUp>().item.itemName + " »πµÊ (øﬁ≈¨∏Ø)</color>";
     }
 
     private void ItemInfoDisappear()
     {
         pickActivated = false;
-        actionText.gameObject.SetActive(false);
+        actionText.gameObject.SetActive(false); 
     }
 
 

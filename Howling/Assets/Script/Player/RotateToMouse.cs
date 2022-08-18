@@ -24,7 +24,6 @@ public class RotateToMouse : MonoBehaviour
 
         transform.rotation = Quaternion.Euler(0, eulerAngleY, 0);
         _eye.transform.rotation = Quaternion.Euler(eulerAngleX, eulerAngleY, 0);
-
     }
 
     private float ClampAngle(float angle, float min, float max)

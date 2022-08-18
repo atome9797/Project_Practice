@@ -10,6 +10,7 @@ public class PlayerInput : MonoBehaviour
     public float mouseY { get; private set; }
     
     public bool CanPickup { get; private set; }
+    public bool CanSitDown { get; private set; }
 
     
 
@@ -22,5 +23,6 @@ public class PlayerInput : MonoBehaviour
         mouseX = Input.GetAxis("Mouse X");
         mouseY = Input.GetAxis("Mouse Y");
         CanPickup = Input.GetMouseButton(0);
+        CanSitDown = Input.GetKey(KeyCode.LeftControl);
     }
 }
