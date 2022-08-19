@@ -7,6 +7,9 @@ using UnityEngine.EventSystems;
 public class Slot : MonoBehaviour , IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
 {
 
+    //마우스 드래그 끝났을때 발생하는 이벤트
+    private Rect baseRect; //Inventory_Base 이미지의 Rect 정보를 받아옴
+
     private WeaponManager theWeaponManager;
 
     public Item item; //획득한 아이템
@@ -22,8 +25,10 @@ public class Slot : MonoBehaviour , IPointerClickHandler, IBeginDragHandler, IDr
     private void Start()
     {
         //FindObjectOfType 사용한 이유 : 게임 도중 생성될 예정인 프리팹은 SerializeField인것들은 자신의 객체만 참조 가능하기 때문에 None이 되어버림
-
         theWeaponManager = FindObjectOfType<WeaponManager>();
+
+        //Inventory_Base 의 transform 정보 받아옴
+        baseRect = transform.parent.parent.GetComponent<RectTransform>().rect;
     }
 
     //아이템 이미지의 투명도 조절
@@ -95,6 +100,8 @@ public class Slot : MonoBehaviour , IPointerClickHandler, IBeginDragHandler, IDr
                 {
                     //해당 아이템 장착
                     StartCoroutine(theWeaponManager.ChangeWeaponCoroutine(item.weaponType, item.itemName));
+                    Debug.Log(item.itemName + " 을 사용했습니다.");
+                    SetSlotCount(-1);
                 }
                 else
                 {
@@ -132,6 +139,21 @@ public class Slot : MonoBehaviour , IPointerClickHandler, IBeginDragHandler, IDr
     //마우스 드래그가 끝났을때 발생하는 이벤트
     public void OnEndDrag(PointerEventData eventData)
     {
+        //범위를 벗어나면 실행되게함
+        if(DragSlot._instance.transform.localPosition.x < baseRect.xMin
+            || DragSlot._instance.transform.localPosition.x > baseRect.xMax
+            || DragSlot._instance.transform.localPosition.y < baseRect.yMin
+            || DragSlot._instance.transform.localPosition.y > baseRect.yMax)
+        {
+            //드래그 슬롯에 저장한 아이템 프리팹을 생성해줌
+            Instantiate(DragSlot._instance._dragSlot.item.itemPrefab,
+                theWeaponManager.transform.position + theWeaponManager.transform.forward, Quaternion.identity);
+
+            //그리고 슬롯 초기화
+            DragSlot._instance._dragSlot.ClearSlot();
+        }
+
+
         //투명하게 변경
         DragSlot._instance.SetColor(0);
         DragSlot._instance._dragSlot = null; //슬롯 비우기

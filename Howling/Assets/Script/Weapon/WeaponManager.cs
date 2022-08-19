@@ -1,54 +1,40 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class WeaponManager : MonoBehaviour
 {
-
-    public static bool isChangeWeapon = false; //¹«±â ±³Ã¼ Áßº¹ ½ÇÇà ¹æÁö
-
-    [SerializeField]
-    private float changeweaponDelayTime = 1f; //¹«±â ±³Ã¼ µô·¹ÀÌ ½Ã°£
+    public static bool isChangeWeapon = false;  // ë¬´ê¸° êµì²´ ì¤‘ë³µ ì‹¤í–‰ ë°©ì§€. (Trueë©´ ëª»í•˜ê²Œ)
 
     [SerializeField]
-    private float changeweaponEndDelayTime = 1f;//¹«±â ±³Ã¼°¡ ¿ÏÀüÈ÷ ³¡³­ ½ÃÁ¡
+    private float changeweaponDelayTime;  // ë¬´ê¸° êµì²´ ë”œë ˆì´ ì‹œê°„. ì´ì„ êº¼ë‚´ê¸° ìœ„í•´ ì† ì§‘ì–´ ë„£ëŠ” ê·¸ ì‹œê°„. ëŒ€ëµ Weapon_Out ì• ë‹ˆë©”ì´ì…˜ ì‹œê°„.
+    [SerializeField]
+    private float changeweaponEndDelayTime;  // ë¬´ê¸° êµì²´ê°€ ì™„ì „íˆ ëë‚œ ì‹œì . ëŒ€ëµ Weapon_In ì• ë‹ˆë©”ì´ì…˜ ì‹œê°„.
 
     [SerializeField]
-    private Hand[] hands; //¸ğµç Á¾·ùÀÇ HandÇü ¹«±â¸¦ °¡Áö´Â ¹è¿­
+    private CloseWeapon[] hands;  //  Hand í˜• ë¬´ê¸°ë¥¼ ê°€ì§€ëŠ” ë°°ì—´
 
-    //°ü¸® Â÷¿ø¿¡¼­ ÀÌ¸§À¸·Î ½±°Ô ¹«±â Á¢±ÙÀÌ °¡´ÉÇÏµµ·Ï Dictionary ÀÚ·á ±¸Á¶ »ç¿ë
-    private Dictionary<string, Hand> handDictionary = new Dictionary<string, Hand>();
+    // ê´€ë¦¬ ì°¨ì›ì—ì„œ ì´ë¦„ìœ¼ë¡œ ì‰½ê²Œ ë¬´ê¸° ì ‘ê·¼ì´ ê°€ëŠ¥í•˜ë„ë¡ Dictionary ìë£Œ êµ¬ì¡° ì‚¬ìš©.
+    private Dictionary<string, CloseWeapon> handDictionary = new Dictionary<string, CloseWeapon>();
 
     [SerializeField]
-    private string currentWeaponType; //ÇöÃ¤ ¹«±âÀÇ Å¸ÀÔ (ÃÑ, µµ³¢µîµî)
-    public static Transform currentWeapon; //ÇöÀçÀÇ ¹«±â.
-    
-    [SerializeField]
-    private HandController theHandController;//¼ÕÀÏ¶© HandController È°¼ºÈ­
+    private string currentWeaponType;  // í˜„ì¬ ë¬´ê¸°ì˜ íƒ€ì… (ì´, ë„ë¼ ë“±ë“±)
+    public static Transform currentWeapon;  // í˜„ì¬ ë¬´ê¸°. staticìœ¼ë¡œ ì„ ì–¸í•˜ì—¬ ì—¬ëŸ¬ ìŠ¤í¬ë¦½íŠ¸ì—ì„œ í´ë˜ìŠ¤ ì´ë¦„ìœ¼ë¡œ ë°”ë¡œ ì ‘ê·¼í•  ìˆ˜ ìˆê²Œ í•¨.
 
-    private void Start()
+    [SerializeField]
+    private HandController theHandController; // ì† ì¼ë• ğŸ“œHandController.cs í™œì„±í™”, ë‹¤ë¥¸ ë¬´ê¸°ì¼ ë• ğŸ“œHandController.cs ë¹„í™œì„±í™”
+
+
+    void Start()
     {
-        for(int i = 0; i < hands.Length; i++)
+       
+        for (int i = 0; i < hands.Length; i++)
         {
-            //ÇÚµå ÀÌ¸§°ú °´Ã¼¸¦ ¹Ş¾Æ¿È
-            handDictionary.Add(hands[i].handName, hands[i]);
+            handDictionary.Add(hands[i].closeWeaponName, hands[i]);
         }
+       
     }
 
-
-    private void Update()
-    {
-        if(!isChangeWeapon)
-        {
-            //1¹ø ´©¸£¸é ¸Ç¼Õ¹«±â·Î ±³Ã¼
-            if(Input.GetKeyDown(KeyCode.Alpha1))
-            {
-                StartCoroutine(ChangeWeaponCoroutine("HAND", "¸Ç¼Õ"));
-            }
-        }
-    }
-
-    //¶óµğ¿À °´Ã¼¸é Equipment, RadioÀ¸·Î µé¾î¿È
     public IEnumerator ChangeWeaponCoroutine(string _type, string _name)
     {
         isChangeWeapon = true;
@@ -56,8 +42,6 @@ public class WeaponManager : MonoBehaviour
         yield return new WaitForSeconds(changeweaponDelayTime);
 
         CancelPreWeaponAction();
-
-        //handDictionary[¸Ç¼Õ] ÀÇ 
         WeaponChange(_type, _name);
 
         yield return new WaitForSeconds(changeweaponEndDelayTime);
@@ -66,24 +50,24 @@ public class WeaponManager : MonoBehaviour
         isChangeWeapon = false;
     }
 
-    //µé°í ÀÖ´ø ¹«±â ³»¸®±â
     private void CancelPreWeaponAction()
     {
-        switch(currentWeaponType)
+        switch (currentWeaponType)
         {
+         
             case "HAND":
                 HandController.isActivate = false;
                 break;
+            
         }
     }
 
-    //µé°íÀÚ ÇÏ´Â »õ¹«±â·Î µé±â
-    private void WeaponChange(string _type, string  _name)
+    private void WeaponChange(string _type, string _name)
     {
+     
         if (_type == "HAND")
         {
-            //ÇÚµå °´Ã¼ÀÇ ¾ÆÀÌÅÛÀ¸·Î Ã¼ÀÎÁöÇÔ
-            theHandController.HandChange(handDictionary[_name]);
+            theHandController.CloseWeaponChange(handDictionary[_name]);
         }
     }
 }
