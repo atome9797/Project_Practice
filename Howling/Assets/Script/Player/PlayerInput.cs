@@ -24,5 +24,8 @@ public class PlayerInput : MonoBehaviour
         mouseY = Input.GetAxis("Mouse Y");
         CanPickup = Input.GetMouseButton(0);
         CanSitDown = Input.GetKey(KeyCode.LeftControl);
+
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Debug.DrawRay(ray.origin, ray.direction * 100f, Color.red);
     }
 }

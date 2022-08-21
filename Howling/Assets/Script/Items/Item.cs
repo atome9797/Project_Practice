@@ -5,6 +5,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Item", menuName = "New Item/item")]
 public class Item : ScriptableObject  // 게임 오브젝트에 붙일 필요 X 
 {
+    [TextArea]
+    public string itemDesc;
+
     public enum ItemType  // 아이템 유형
     {
         Equipment, //무기/장비

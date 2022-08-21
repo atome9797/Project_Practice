@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54d4bcde555bdd145bcd3dfd2b09a241, type: 3}
   m_Name: Radio
   m_EditorClassIdentifier: 
+  itemDesc: "\uB77C\uB514\uC624\n(\uC18C\uB9AC\uB85C \uC880\uBE44\uB4E4\uC744 \uC720\uC778\uD55C\uB2E4)"
   itemName: Radio
   itemType: 0
   itemImage: {fileID: 21300000, guid: 4ea7b03d1dbc8ed4a9f134692702a9b0, type: 3}

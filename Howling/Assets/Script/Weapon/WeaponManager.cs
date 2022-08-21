@@ -19,6 +19,7 @@ public class WeaponManager : MonoBehaviour
 
     [SerializeField]
     private string currentWeaponType;  // 현재 무기의 타입 (총, 도끼 등등)
+    
     public static Transform currentWeapon;  // 현재 무기. static으로 선언하여 여러 스크립트에서 클래스 이름으로 바로 접근할 수 있게 함.
 
     [SerializeField]
@@ -28,6 +29,7 @@ public class WeaponManager : MonoBehaviour
     void Start()
     {
        
+
         for (int i = 0; i < hands.Length; i++)
         {
             handDictionary.Add(hands[i].closeWeaponName, hands[i]);

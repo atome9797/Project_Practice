@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class PlayerController : MonoBehaviour
 {
@@ -14,7 +15,14 @@ public class PlayerController : MonoBehaviour
     public GameObject _player;
     public GameObject _eye;
     private bool sitDown = false; 
-    private bool prestate = false; 
+    private bool prestate = false;
+    private GameObject radio = null;
+    [SerializeField]
+    private WeaponManager theWeaponManager;
+    [SerializeField]
+    private ActionController thePlayer;
+    public Item item; //라디오 임시
+
 
     private void Awake()
     {
@@ -33,27 +41,51 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        if (_input.CanPickup)
+        {
+            //코르틴 이용해서 1초동안 애니메이션 실행시키기
+            StartCoroutine(GrapEffect());
+        }
+
+        UpdateMove();
+        UpdateJump();
+        StartCoroutine(CoroutineDown());
+        UpdateRotate();
+        
         if(!Inventory.inventoryActivated)
         {
-            UpdateRotate();
-            UpdateMove();
-            UpdateJump();
-            StartCoroutine(CoroutineDown());
-
-            if (_input.CanPickup)
-            {
-                //코르틴 이용해서 1초동안 애니메이션 실행시키기
-                StartCoroutine(GrapEffect());
-            }
-
             mouseOff();
-
+            Dropdown();
         }
         else
         {
             mouseOn();
         }
     }
+
+
+    private void Dropdown()
+    {
+        //우클릭 눌렀을때
+        if (Input.GetMouseButtonDown(1))
+        {
+            radio = GameObject.FindWithTag("Radio");
+            if (radio != null)
+            {
+                //라디오 객체가 활성화 중이면
+                if (radio.activeSelf == true)
+                {
+                   
+                   StartCoroutine(theWeaponManager.ChangeWeaponCoroutine("HAND", "HAND"));
+                   Instantiate(item.itemPrefab, thePlayer.transform.position + thePlayer.transform.forward, Quaternion.identity);
+                }
+            }
+             
+        }
+    }
+
+
+
 
     IEnumerator CoroutineDown()
     {

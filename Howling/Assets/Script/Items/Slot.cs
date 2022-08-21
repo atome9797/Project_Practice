@@ -4,13 +4,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class Slot : MonoBehaviour , IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
+public class Slot : MonoBehaviour , IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler, IPointerEnterHandler, IPointerExitHandler
 {
 
     //마우스 드래그 끝났을때 발생하는 이벤트
     private Rect baseRect; //Inventory_Base 이미지의 Rect 정보를 받아옴
 
-    private WeaponManager theWeaponManager;
+    private ItemEffectDatabase theItemEffectDatabase;
 
     public Item item; //획득한 아이템
     public int itemCount; //획득한 아이템의 개수
@@ -21,14 +21,17 @@ public class Slot : MonoBehaviour , IPointerClickHandler, IBeginDragHandler, IDr
     [SerializeField]
     private GameObject go_CountImage; //아이템 이미지
 
+    private InputNumber theInputNumber;
 
     private void Start()
     {
         //FindObjectOfType 사용한 이유 : 게임 도중 생성될 예정인 프리팹은 SerializeField인것들은 자신의 객체만 참조 가능하기 때문에 None이 되어버림
-        theWeaponManager = FindObjectOfType<WeaponManager>();
+        theItemEffectDatabase = FindObjectOfType<ItemEffectDatabase>();
 
         //Inventory_Base 의 transform 정보 받아옴
         baseRect = transform.parent.parent.GetComponent<RectTransform>().rect;
+
+        theInputNumber = FindObjectOfType<InputNumber>();
     }
 
     //아이템 이미지의 투명도 조절
@@ -95,23 +98,14 @@ public class Slot : MonoBehaviour , IPointerClickHandler, IBeginDragHandler, IDr
             //슬롯에 아이템이 있을경우
             if(item != null)
             {
-                //그리고 아이템이 장비일 경우
-                if(item.itemType == Item.ItemType.Equipment)
-                {
-                    //해당 아이템 장착
-                    StartCoroutine(theWeaponManager.ChangeWeaponCoroutine(item.weaponType, item.itemName));
-                    Debug.Log(item.itemName + " 을 사용했습니다.");
-                    SetSlotCount(-1);
-                }
-                else
-                {
-                    //소비
-                    Debug.Log(item.itemName + " 을 사용했습니다.");
-                    SetSlotCount(-1);
-                }
+                theItemEffectDatabase.UseItem(item);
+                
+                SetSlotCount(-1);
+                
             }
         }
     }
+
 
     //마우스 드래그가 실행됬을때 발생하는 이벤트
     public void OnBeginDrag(PointerEventData eventData)
@@ -145,18 +139,19 @@ public class Slot : MonoBehaviour , IPointerClickHandler, IBeginDragHandler, IDr
             || DragSlot._instance.transform.localPosition.y < baseRect.yMin
             || DragSlot._instance.transform.localPosition.y > baseRect.yMax)
         {
-            //드래그 슬롯에 저장한 아이템 프리팹을 생성해줌
-            Instantiate(DragSlot._instance._dragSlot.item.itemPrefab,
-                theWeaponManager.transform.position + theWeaponManager.transform.forward, Quaternion.identity);
-
-            //그리고 슬롯 초기화
-            DragSlot._instance._dragSlot.ClearSlot();
+            if(DragSlot._instance._dragSlot != null)
+            {
+                //프리팹으로 생성해줄 ui 띄워줌
+                theInputNumber.Call();
+            }
+        }
+        else
+        {
+            //슬롯을 투명하게 변경
+            DragSlot._instance.SetColor(0);
+            DragSlot._instance._dragSlot = null; //슬롯 비우기
         }
 
-
-        //투명하게 변경
-        DragSlot._instance.SetColor(0);
-        DragSlot._instance._dragSlot = null; //슬롯 비우기
     }
 
     //해당 슬롯에 무언가가 마우스 드롭 됬을때 발생하는 이벤트
@@ -189,5 +184,20 @@ public class Slot : MonoBehaviour , IPointerClickHandler, IBeginDragHandler, IDr
             //슬롯 비우기
             DragSlot._instance._dragSlot.ClearSlot();
         }
+    }
+
+    //마우스가 슬롯 범위안에 들어왔을때 실행되는 이벤트
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if(item != null)
+        {
+            theItemEffectDatabase.ShowToolTip(item, transform.position);
+        }
+    }
+
+    //마우스 커서가 슬롯에서 나올때 발동
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        theItemEffectDatabase.HideToolTip();
     }
 }

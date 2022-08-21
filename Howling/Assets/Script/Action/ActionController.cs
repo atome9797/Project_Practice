@@ -20,36 +20,83 @@ public class ActionController : MonoBehaviour
 
     //¾ÆÀÌÅÛ Ã³¸®
     [SerializeField]
-    private Inventory theInventory; 
+    private Inventory theInventory;
 
-    
+    [SerializeField]
+    private GameObject go_Record; // Inventory_Base ÀÌ¹ÌÁö
+
+    public static bool RecordActivated = false;
+
+
     private void Update()
     {
         CheckItem();
         TryAction();
+
+        if (Input.GetKeyDown(KeyCode.P) && RecordActivated)
+        {
+            ScaleFromMicrophone.PlaySnd();
+        }
+        else if (Input.GetKeyDown(KeyCode.R) && RecordActivated)
+        {
+            ScaleFromMicrophone.RecSnd();
+        }
     }
 
     private void TryAction()
     {
-        if(Input.GetMouseButton(0))
+        if(Input.GetMouseButton(0) && !RecordActivated)
         {
             CheckItem();
             CanPickUp();
         }
     }
 
+    private void OpenRecord()
+    {
+        go_Record.SetActive(true);
+    }
+
+    private void CloseRecord()
+    {
+        go_Record.SetActive(false);
+    }
+
+    
+
     private void CheckItem()
     {
         if (Physics.Raycast(transform.position, transform.forward, out hitInfo, range, layerMask))
         {
-            if(hitInfo.transform.tag == "Item")
+            
+
+            if (hitInfo.transform.GetComponent<ItemPickUp>().item.itemName =="Radio") 
+            {
+                ItemInfoAppear2();
+                if (Input.GetKeyDown(KeyCode.U)) //ÇÃ·¹ÀÌ ¹öÆ° U
+                {
+                    RecordActivated = !RecordActivated;
+
+                    if(RecordActivated)
+                    {
+                        OpenRecord();
+                    }
+                    else
+                    {
+                        CloseRecord();
+                    }
+                }
+            }
+            else if (hitInfo.transform.tag == "Item")
             {
                 ItemInfoAppear();
+                CloseRecord();
             }
         }
         else
         {
             ItemInfoDisappear();
+            CloseRecord();
         }
     }
 
@@ -59,6 +106,13 @@ public class ActionController : MonoBehaviour
         pickActivated = true;
         actionText.gameObject.SetActive(true);
         actionText.text = "<color=yellow>" + hitInfo.transform.GetComponent<ItemPickUp>().item.itemName + " È¹µæ (¿ÞÅ¬¸¯)</color>";
+    }
+
+    private void ItemInfoAppear2()
+    {
+        pickActivated = true;
+        actionText.gameObject.SetActive(true);
+        actionText.text = "<color=yellow>" + hitInfo.transform.GetComponent<ItemPickUp>().item.itemName + " È¹µæ (¿ÞÅ¬¸¯) ¶óµð¿À »ç¿ë (U) </color>";
     }
 
     private void ItemInfoDisappear()
