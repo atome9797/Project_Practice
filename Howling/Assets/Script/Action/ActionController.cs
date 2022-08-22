@@ -69,8 +69,7 @@ public class ActionController : MonoBehaviour
         if (Physics.Raycast(transform.position, transform.forward, out hitInfo, range, layerMask))
         {
             
-
-            if (hitInfo.transform.GetComponent<ItemPickUp>().item.itemName =="Radio") 
+            if (hitInfo.transform.GetComponent<ItemPickUp>().item.itemName == "Radio") 
             {
                 ItemInfoAppear2();
                 if (Input.GetKeyDown(KeyCode.U)) //플레이 버튼 U

@@ -17,11 +17,15 @@ public class PlayerController : MonoBehaviour
     private bool sitDown = false; 
     private bool prestate = false;
     private GameObject radio = null;
+    private GameObject GoldKey = null;
+    private GameObject SilverKey = null;
     [SerializeField]
     private WeaponManager theWeaponManager;
     [SerializeField]
     private ActionController thePlayer;
-    public Item item; //라디오 임시
+    public Item item1; //라디오 임시
+    public Item item2; //라디오 임시
+    public Item item3; //라디오 임시
 
 
     private void Awake()
@@ -71,6 +75,8 @@ public class PlayerController : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
         {
             radio = GameObject.FindWithTag("Radio");
+            GoldKey = GameObject.FindWithTag("GoldKey");
+            SilverKey = GameObject.FindWithTag("SilverKey");
             if (radio != null)
             {
                 //라디오 객체가 활성화 중이면
@@ -78,10 +84,30 @@ public class PlayerController : MonoBehaviour
                 {
                    
                    StartCoroutine(theWeaponManager.ChangeWeaponCoroutine("HAND", "HAND"));
-                   Instantiate(item.itemPrefab, thePlayer.transform.position + thePlayer.transform.forward, Quaternion.identity);
+                   Instantiate(item1.itemPrefab, thePlayer.transform.position + thePlayer.transform.forward, Quaternion.identity);
                 }
             }
-             
+            else if(GoldKey != null)
+            {
+                //라디오 객체가 활성화 중이면
+                if (GoldKey.activeSelf == true)
+                {
+
+                    StartCoroutine(theWeaponManager.ChangeWeaponCoroutine("HAND", "HAND"));
+                    Instantiate(item2.itemPrefab, thePlayer.transform.position + thePlayer.transform.forward, Quaternion.identity);
+                }
+            }
+            else if (SilverKey != null)
+            {
+                //라디오 객체가 활성화 중이면
+                if (SilverKey.activeSelf == true)
+                {
+
+                    StartCoroutine(theWeaponManager.ChangeWeaponCoroutine("HAND", "HAND"));
+                    Instantiate(item3.itemPrefab, thePlayer.transform.position + thePlayer.transform.forward, Quaternion.identity);
+                }
+            }
+
         }
     }
 
