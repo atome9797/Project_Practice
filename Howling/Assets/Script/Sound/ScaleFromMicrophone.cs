@@ -29,9 +29,7 @@ public class ScaleFromMicrophone : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //¿”Ω√ ¡÷ºÆ 
-        //22.08.22 ±Ëøµ»∆
-        /*float loudness = detecter.GetLoudnessFromMicrophone();
+        float loudness = detecter.GetLoudnessFromMicrophone();
 
         if (loudness < threshold)
         {
@@ -39,7 +37,6 @@ public class ScaleFromMicrophone : MonoBehaviour
         }
         Debug.Log((float)Mathf.Lerp(minScalef, maxScalef, loudness));
         images_Gauge[0].fillAmount = (float)Mathf.Lerp(minScalef, maxScalef, loudness);
-        */
     }
 
     public static void PlaySnd()

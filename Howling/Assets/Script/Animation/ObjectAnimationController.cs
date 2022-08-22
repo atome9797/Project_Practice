@@ -22,8 +22,12 @@ public class ObjectAnimationController : MonoBehaviour
 
     public Animator _animator;
 
+    private GameObject key = null;
+
+
     private void Update()
     {
+        key = GameObject.FindWithTag("SilverKey");
         CheckItem();
         TryAction();
     }
@@ -40,8 +44,10 @@ public class ObjectAnimationController : MonoBehaviour
 
     private void CheckItem()
     {
+        
         if (Physics.Raycast(transform.position, transform.forward, out hitInfo, range, layerMask))
         {
+            
             if (hitInfo.transform.tag == "ObjectAnimation")
             {
                 ItemInfoAppear();

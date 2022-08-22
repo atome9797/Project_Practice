@@ -9,6 +9,8 @@ TagManager:
   - ObjectAnimation
   - GoldKey
   - SilverKey
+  - SilverKeyDoor
+  - GoldKeyDoor
   layers:
   - Default
   - TransparentFX
@@ -25,8 +27,8 @@ TagManager:
   - Head
   - Record
   - ObjectAnimation
-  - 
-  - 
+  - SilverKeyDoor
+  - GoldKeyDoor
   - 
   - 
   - 
