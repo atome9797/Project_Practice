@@ -39,6 +39,7 @@ public class PlayerController : MonoBehaviour
     }
 
 
+
     private void Update()
     {
         if (_input.CanPickup)

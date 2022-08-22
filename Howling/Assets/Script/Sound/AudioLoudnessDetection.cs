@@ -9,7 +9,9 @@ public class AudioLoudnessDetection : MonoBehaviour
 
     private void Start()
     {
-        MicrophoneToAudioClip();
+        //¿”Ω√ ¡÷ºÆ 
+        //22.08.22 ±Ëøµ»∆
+        //MicrophoneToAudioClip();
     }
 
     private void Update()
