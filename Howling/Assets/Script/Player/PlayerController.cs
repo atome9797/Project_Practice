@@ -46,6 +46,8 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        Debug.Log($"x : {thePlayer.transform.position.x} , y : {thePlayer.transform.position.y} , z : {thePlayer.transform.position.z}");
+
         if (_input.CanPickup)
         {
             //코르틴 이용해서 1초동안 애니메이션 실행시키기

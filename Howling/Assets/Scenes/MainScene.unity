@@ -32978,7 +32978,6 @@ GameObject:
   - component: {fileID: 660734430}
   - component: {fileID: 660734428}
   - component: {fileID: 660734427}
-  - component: {fileID: 660734426}
   - component: {fileID: 660734425}
   - component: {fileID: 660734424}
   - component: {fileID: 660734423}
@@ -33046,22 +33045,6 @@ MonoBehaviour:
   rotCamYAxisSpeed: 10
   eulerAngleY: 0
   _eye: {fileID: 174447884}
---- !u!54 &660734426
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 660734422}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.5
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 80
-  m_CollisionDetection: 0
 --- !u!114 &660734427
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -79217,21 +79200,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1293624466}
     m_Modifications:
-    - target: {fileID: 144718, guid: 41d1cac196452694fb10f2476db79e6e, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
     - target: {fileID: 155280, guid: 41d1cac196452694fb10f2476db79e6e, type: 3}
       propertyPath: m_Name
       value: key_silver
-      objectReference: {fileID: 0}
-    - target: {fileID: 155280, guid: 41d1cac196452694fb10f2476db79e6e, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 155280, guid: 41d1cac196452694fb10f2476db79e6e, type: 3}
-      propertyPath: m_TagString
-      value: Item
       objectReference: {fileID: 0}
     - target: {fileID: 469694, guid: 41d1cac196452694fb10f2476db79e6e, type: 3}
       propertyPath: m_RootOrder
